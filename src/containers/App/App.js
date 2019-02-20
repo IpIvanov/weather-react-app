@@ -1,30 +1,54 @@
 import React, { Component } from 'react';
-import logo from '../../logo.svg';
 import './App.css';
-import Location from '../../components/Location'
+import Location from '../../components/Location';
+import SearchByTown from '../../components/SearchByTown';
+import WeatherDays from '../../components/WeatherDays';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import withRoot from '../../withRoot';
+import { fetchWeatherDataByCoords } from '../../actions/index';
+import { connect } from 'react-redux';
+
+
+const styles = theme => ({
+  root: {
+    textAlign: 'center',
+    paddingTop: theme.spacing.unit * 20,
+  },
+});
 
 class App extends Component {
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchWeatherDataByCoords());
+  }
+
   render() {
+    const { coords: { latitude, longitude } } = this.props.location;
+    const { weather } = this.props;
+
+    if (latitude !== 0 && longitude !== 0 && weather.length > 0) {
+      return (
+        <div className="App">
+          <Location lat={latitude} lon={longitude} />
+          <SearchByTown />
+          <WeatherDays days={weather} />
+        </div>
+      );
+    }
+
     return (
-      <div className="App">
-        <Location />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <CircularProgress />
+    )
   }
 }
 
-export default App;
+
+const mapStateToProps = (state) => {
+  return {
+    location: state.location,
+    weather: state.weather
+  };
+};
+
+export default connect(mapStateToProps)(withRoot(withStyles(styles)(App)));
