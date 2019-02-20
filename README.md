@@ -23,3 +23,4 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 2. Refactor search by town component. Think of better logic of showing invalid town name.
 3. Write more unit and integration tests.
 4. Write comments for JSDocs.
+5. Make prop-types for all classes.
