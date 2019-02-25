@@ -19,7 +19,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### Improvements for the future
 
-1. Make details page link to work. For some reason the details button link does not work.
+1. Make fallback if the browser does not have location.
 2. Refactor search by town component. Think of better logic of showing invalid town name.
 3. Write more unit and integration tests.
 4. Write comments for JSDocs.
